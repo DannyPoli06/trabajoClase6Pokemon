@@ -1,0 +1,248 @@
+// Header & Icons
+.title-icon {
+  vertical-align: middle;
+  margin-right: 6px;
+  font-size: 1.3rem;
+  color: #ffcb05; // Pokémon yellow
+}
+
+// Center state for loader and empty search
+.center-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+  text-align: center;
+
+  .empty-icon {
+    font-size: 4rem;
+    color: var(--ion-color-medium);
+    margin-bottom: 12px;
+  }
+}
+
+// Cards in Grid view
+.pokemon-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  background: var(--ion-card-background, #ffffff);
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .card-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .pokemon-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ion-color-dark);
+    }
+
+    .id-badge {
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 4px 8px;
+    }
+  }
+
+  .pokemon-image-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 16px;
+    background: radial-gradient(circle, rgba(var(--ion-color-primary-rgb), 0.08) 0%, transparent 70%);
+
+    .pokemon-img {
+      max-height: 140px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.15));
+      transition: transform 0.3s ease;
+    }
+  }
+
+  &:hover .pokemon-img {
+    transform: scale(1.08);
+  }
+
+  .types-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+
+    .type-pill {
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 12px;
+      padding: 4px 10px;
+    }
+  }
+
+  .stats-mini-grid {
+    border-top: 1px solid rgba(var(--ion-color-medium-rgb), 0.15);
+    padding-top: 10px;
+
+    .stat-col {
+      text-align: center;
+
+      ion-label {
+        font-size: 0.75rem;
+      }
+
+      .stat-value {
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin: 2px 0 0 0;
+        color: var(--ion-color-dark);
+      }
+    }
+  }
+}
+
+// List View
+.pokemon-list-wrapper {
+  background: transparent;
+
+  .pokemon-list-item {
+    --border-radius: 12px;
+    --padding-start: 12px;
+    --inner-padding-end: 12px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    .pokemon-thumbnail {
+      --size: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        object-fit: contain;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+      }
+    }
+
+    .list-item-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      h2 {
+        font-weight: 700;
+        margin: 0;
+      }
+
+      .id-badge-list {
+        font-size: 0.75rem;
+        border-radius: 6px;
+      }
+    }
+
+    .types-row-list {
+      display: flex;
+      gap: 4px;
+      margin: 4px 0;
+
+      .type-pill-small {
+        font-size: 0.7rem;
+        border-radius: 8px;
+        padding: 2px 6px;
+      }
+    }
+
+    .list-specs {
+      font-size: 0.8rem;
+      color: var(--ion-color-medium);
+      margin: 2px 0 0 0;
+    }
+  }
+}
+
+// Modal Detail
+.modal-image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 0 12px;
+
+  .modal-pokemon-img {
+    max-height: 200px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.2));
+  }
+}
+
+.modal-details-card {
+  border-radius: 20px;
+  margin: 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+
+  .modal-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .modal-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+    }
+
+    .modal-id {
+      font-size: 0.9rem;
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+  }
+
+  .types-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+
+    .type-pill {
+      font-size: 0.8rem;
+      border-radius: 12px;
+      padding: 5px 12px;
+    }
+  }
+
+  .stats-section {
+    .stat-row {
+      margin-bottom: 12px;
+
+      .stat-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 4px;
+        font-size: 0.85rem;
+
+        .stat-name {
+          font-weight: 600;
+          color: var(--ion-color-medium);
+        }
+
+        .stat-number {
+          font-weight: 700;
+          color: var(--ion-color-dark);
+        }
+      }
+
+      ion-progress-bar {
+        height: 8px;
+        border-radius: 4px;
+      }
+    }
+  }
+}

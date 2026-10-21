@@ -1,0 +1,203 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>
+      <ion-icon name="flash" class="title-icon"></ion-icon>
+      Pokédex
+    </ion-title>
+    <ion-buttons slot="end">
+      <!-- Botón para alternar entre Cuadrícula y Lista -->
+      <ion-button (click)="toggleViewMode()" [attr.aria-label]="viewMode === 'grid' ? 'Ver como lista' : 'Ver como cuadrícula'">
+        <ion-icon slot="icon-only" [name]="viewMode === 'grid' ? 'list-outline' : 'grid-outline'"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <!-- Barra de búsqueda por nombre o ID -->
+  <ion-toolbar>
+    <ion-searchbar 
+      placeholder="Buscar por nombre, ID o tipo..." 
+      (ionInput)="filterPokemons($event)"
+      [debounce]="250"
+      animated="true">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Refrescador (Pull to refresh) -->
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content pullingIcon="chevron-down-circle-outline" refreshingSpinner="crescent">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Indicador de Carga -->
+  <div *ngIf="loading" class="center-state">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <ion-label color="medium" class="ion-margin-top">Cargando datos de la Pokédex...</ion-label>
+  </div>
+
+  <!-- Estado Vacío cuando la búsqueda no da resultados -->
+  <div *ngIf="!loading && filteredPokemons.length === 0" class="center-state">
+    <ion-icon name="search-outline" class="empty-icon"></ion-icon>
+    <ion-label color="medium">No se encontraron Pokémon que coincidan con la búsqueda.</ion-label>
+  </div>
+
+  <!-- OPCIÓN 1: VISTA DE CUADRÍCULA CON TARJETAS (ion-grid + ion-card) -->
+  <ion-grid *ngIf="!loading && viewMode === 'grid'">
+    <ion-row>
+      <ion-col size="12" size-sm="6" size-md="4" size-lg="3" *ngFor="let pokemon of filteredPokemons">
+        <ion-card class="pokemon-card" (click)="openDetails(pokemon)">
+          <ion-card-header>
+            <div class="card-header-row">
+              <ion-card-title class="pokemon-name">{{ pokemon.name | titlecase }}</ion-card-title>
+              <ion-badge color="medium" class="id-badge">#{{ pokemon.id | number:'3.0-0' }}</ion-badge>
+            </div>
+          </ion-card-header>
+
+          <!-- Imagen del Pokémon -->
+          <div class="pokemon-image-box">
+            <img [src]="getPokemonImage(pokemon)" [alt]="pokemon.name" class="pokemon-img" loading="lazy" />
+          </div>
+
+          <ion-card-content>
+            <!-- Tipos del Pokémon con Badges de colores -->
+            <div class="types-row">
+              <ion-badge 
+                *ngFor="let t of pokemon.types" 
+                [color]="getTypeColor(t.type.name)"
+                class="type-pill">
+                {{ t.type.name | titlecase }}
+              </ion-badge>
+            </div>
+
+            <!-- Características básicas (Altura y Peso) -->
+            <ion-grid class="stats-mini-grid ion-no-padding ion-margin-top">
+              <ion-row>
+                <ion-col size="6" class="stat-col">
+                  <ion-label color="medium">Altura</ion-label>
+                  <p class="stat-value">{{ pokemon.height / 10 }} m</p>
+                </ion-col>
+                <ion-col size="6" class="stat-col">
+                  <ion-label color="medium">Peso</ion-label>
+                  <p class="stat-value">{{ pokemon.weight / 10 }} kg</p>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- OPCIÓN 2: VISTA DE LISTA (ion-list + ion-item + ion-thumbnail + ion-label) -->
+  <ion-list *ngIf="!loading && viewMode === 'list'" class="pokemon-list-wrapper">
+    <ion-item 
+      *ngFor="let pokemon of filteredPokemons" 
+      button 
+      detail="true" 
+      (click)="openDetails(pokemon)"
+      class="pokemon-list-item">
+      
+      <!-- Miniatura (ion-thumbnail) -->
+      <ion-thumbnail slot="start" class="pokemon-thumbnail">
+        <img [src]="getPokemonImage(pokemon)" [alt]="pokemon.name" />
+      </ion-thumbnail>
+
+      <!-- Etiquetas y características (ion-label) -->
+      <ion-label>
+        <div class="list-item-header">
+          <h2>{{ pokemon.name | titlecase }}</h2>
+          <ion-badge color="light" class="id-badge-list">#{{ pokemon.id | number:'3.0-0' }}</ion-badge>
+        </div>
+        <div class="types-row-list">
+          <ion-badge 
+            *ngFor="let t of pokemon.types" 
+            [color]="getTypeColor(t.type.name)" 
+            class="type-pill-small">
+            {{ t.type.name | titlecase }}
+          </ion-badge>
+        </div>
+        <p class="list-specs">Altura: {{ pokemon.height / 10 }} m &bull; Peso: {{ pokemon.weight / 10 }} kg</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- MODAL DE DETALLES: Muestra todas las características completas del Pokémon -->
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="closeDetails()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>{{ selectedPokemon?.name | titlecase }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeDetails()" strong="true">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding" *ngIf="selectedPokemon">
+        <div class="modal-image-wrapper">
+          <img [src]="getPokemonImage(selectedPokemon)" [alt]="selectedPokemon.name" class="modal-pokemon-img" />
+        </div>
+
+        <ion-card class="modal-details-card">
+          <ion-card-header>
+            <div class="modal-card-top">
+              <ion-card-title class="modal-title">{{ selectedPokemon.name | titlecase }}</ion-card-title>
+              <ion-badge color="medium" class="modal-id">#{{ selectedPokemon.id | number:'3.0-0' }}</ion-badge>
+            </div>
+            <!-- Tipos -->
+            <div class="types-row ion-margin-top">
+              <ion-badge 
+                *ngFor="let t of selectedPokemon.types" 
+                [color]="getTypeColor(t.type.name)" 
+                class="type-pill">
+                {{ t.type.name | uppercase }}
+              </ion-badge>
+            </div>
+          </ion-card-header>
+
+          <ion-card-content>
+            <!-- Características Generales -->
+            <ion-list lines="full">
+              <ion-item>
+                <ion-label color="medium">Altura</ion-label>
+                <ion-note slot="end" color="dark">{{ selectedPokemon.height / 10 }} m</ion-note>
+              </ion-item>
+              <ion-item>
+                <ion-label color="medium">Peso</ion-label>
+                <ion-note slot="end" color="dark">{{ selectedPokemon.weight / 10 }} kg</ion-note>
+              </ion-item>
+              <ion-item>
+                <ion-label color="medium">Experiencia Base</ion-label>
+                <ion-note slot="end" color="dark">{{ selectedPokemon.base_experience }} XP</ion-note>
+              </ion-item>
+              <ion-item>
+                <ion-label color="medium">Habilidades</ion-label>
+                <ion-note slot="end" color="dark">
+                  <span *ngFor="let a of selectedPokemon.abilities; let last = last">
+                    {{ a.ability.name | titlecase }}{{ !last ? ', ' : '' }}
+                  </span>
+                </ion-note>
+              </ion-item>
+            </ion-list>
+
+            <!-- Estadísticas de combate (Stats) -->
+            <div class="stats-section ion-margin-top">
+              <ion-label color="dark"><h3><strong>Estadísticas Base</strong></h3></ion-label>
+              <div *ngFor="let s of selectedPokemon.stats" class="stat-row">
+                <div class="stat-info">
+                  <span class="stat-name">{{ s.stat.name | uppercase }}</span>
+                  <span class="stat-number">{{ s.base_stat }}</span>
+                </div>
+                <ion-progress-bar 
+                  [value]="s.base_stat / 150" 
+                  [color]="s.base_stat >= 50 ? 'success' : 'warning'">
+                </ion-progress-bar>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
