@@ -1,23 +1,36 @@
 # Laboratorio 
 # Consumo de API's con ionic
 
-El presente repo contiene una aplicación que consume el API de https://pokeapi.co/, con el endpoint [https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0](https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0)
-
-La actividad por realizar es generar una aplicación que me permita buscar y mostrar Pokémons pero con todas sus características, incluida su foto, para lo cual puede consumir el endpoint: https://pokeapi.co/api/v2/pokemon/ditto , en este caso "ditto" es el nombre del Pokémon a mostrar.
-
-Entregable: en el aula virtual deberá subir su repositorio de github donde debe detallar el proceso en el readme y adjuntar capturas de la app en ejecución. Pueden trabajar hasta 3 personas. Todos deben subir su repositorio.
-
-
 ----
-ionic start pokeapp blank --type=angular
+* **CAPTURAS DE PANTALLA**
 
-(NgModules)
+* **PANTALLA GENERAL**
+  
+  <img width="250" alt="image" src="https://github.com/user-attachments/assets/529b5da8-1005-4e30-bcb4-4a428b09fe33" />
 
-cd pokeapp
+  
+* **NIVEL 1-BUSCADOR**
+  
+  <img width="250" alt="image" src="https://github.com/user-attachments/assets/3f0fbc20-8dda-46d4-bcea-66778bde81cf" />
 
-npm install @angular/common @angular/http, puede que deba usar --force
+* **NIVEL2 - IMAGENES, ESATDISTICAS Y SONIDO**
 
-ionic generate service services/pokemon
+  <img width="250" alt="image" src="https://github.com/user-attachments/assets/a829f84f-d0e1-47a5-bcb5-7c881666ad20" />
 
-ionic generate page pages/pokemon-list
+  <img width="250" alt="image" src="https://github.com/user-attachments/assets/e0992bf1-8819-4d14-9ac9-48971d147552" />
+
+  <img width="250" alt="image" src="https://github.com/user-attachments/assets/e18f0873-1688-49f9-b1a1-77e400e88925" />
+
+* **NIVEL 3 - COMPARAR DOS PERSONAJES**
+
+  <img width="250"  alt="image" src="https://github.com/user-attachments/assets/079bc27d-7275-48b5-8976-ba380d5c2477" />
+
+  <img width="250"  alt="image" src="https://github.com/user-attachments/assets/11e462b1-4c98-4508-bef8-800b05d7deb7" />
+
+
+
+
+---
+
+
 
