@@ -246,3 +246,302 @@
     }
   }
 }
+
+// Botón de Grito / Audio
+.cry-button-wrapper {
+  margin: 8px 0 16px;
+
+  .cry-button {
+    --box-shadow: 0 4px 12px rgba(255, 193, 7, 0.4);
+    font-weight: 700;
+  }
+}
+
+// Tarjeta de Sprite Animado (GIF)
+.animated-sprite-card {
+  background: rgba(var(--ion-color-tertiary-rgb), 0.08);
+  border: 1px dashed rgba(var(--ion-color-tertiary-rgb), 0.35);
+  border-radius: 16px;
+  padding: 12px;
+  text-align: center;
+
+  .animated-header {
+    margin-bottom: 6px;
+  }
+
+  .animated-img-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80px;
+
+    .animated-gif {
+      max-height: 90px;
+      object-fit: contain;
+      image-rendering: pixelated;
+    }
+  }
+}
+
+// Galería de Sprites
+.gallery-tab-wrapper {
+  .gallery-preview-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    background: radial-gradient(circle, rgba(var(--ion-color-primary-rgb), 0.1) 0%, transparent 70%);
+    min-height: 160px;
+
+    .gallery-preview-img {
+      max-height: 160px;
+      object-fit: contain;
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
+      transition: transform 0.25s ease;
+    }
+  }
+
+  .gallery-card {
+    border-radius: 16px;
+    margin: 8px 0;
+
+    .gallery-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+
+      .gallery-icon {
+        vertical-align: middle;
+        margin-right: 6px;
+        color: var(--ion-color-primary);
+      }
+    }
+
+    .gallery-subtitle {
+      font-size: 0.85rem;
+      color: var(--ion-color-medium);
+      margin: 4px 0 0;
+    }
+
+    .sprite-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border: 2px solid rgba(var(--ion-color-medium-rgb), 0.15);
+      border-radius: 12px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s ease;
+      background: var(--ion-card-background, #fff);
+
+      &:hover, &.active-sprite {
+        border-color: var(--ion-color-primary);
+        box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.2);
+        transform: translateY(-2px);
+      }
+
+      .sprite-thumb {
+        height: 64px;
+        width: 64px;
+        object-fit: contain;
+      }
+
+      .sprite-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-top: 6px;
+        text-align: center;
+      }
+
+      .gif-tag {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        font-size: 0.6rem;
+        padding: 2px 4px;
+      }
+    }
+  }
+}
+
+// Comparador Lado a Lado (Nivel 3)
+.compare-tab-wrapper {
+  .rival-selector-item {
+    --background: rgba(var(--ion-color-light-rgb), 0.8);
+    border-radius: 12px;
+    margin-bottom: 12px;
+  }
+
+  .vs-header-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--ion-card-background, #fff);
+    border-radius: 20px;
+    padding: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+
+    .fighter-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+
+      .fighter-img {
+        max-height: 100px;
+        object-fit: contain;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+      }
+
+      .fighter-name {
+        font-size: 1.05rem;
+        font-weight: 800;
+        margin: 6px 0 4px;
+      }
+
+      .fighter-types {
+        display: flex;
+        gap: 4px;
+        margin-bottom: 6px;
+
+        .type-badge-mini {
+          font-size: 0.65rem;
+          padding: 2px 6px;
+          border-radius: 6px;
+        }
+      }
+
+      .total-stats-badge {
+        font-size: 0.75rem;
+        border-radius: 6px;
+        padding: 3px 8px;
+      }
+    }
+
+    .vs-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 12px rgba(255, 65, 108, 0.4);
+      margin: 0 8px;
+    }
+  }
+
+  .winner-banner {
+    background: var(--ion-color-light);
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    &.winner-p1 {
+      background: rgba(var(--ion-color-success-rgb), 0.15);
+      border: 1px solid var(--ion-color-success);
+      color: var(--ion-color-success);
+    }
+
+    &.winner-p2 {
+      background: rgba(var(--ion-color-tertiary-rgb), 0.15);
+      border: 1px solid var(--ion-color-tertiary);
+      color: var(--ion-color-tertiary);
+    }
+  }
+
+  .compare-stats-card {
+    border-radius: 16px;
+    margin: 12px 0;
+
+    .stats-compare-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .stat-compare-row {
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(var(--ion-color-medium-rgb), 0.12);
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .stat-side {
+        width: 50px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-weight: 700;
+        font-size: 0.95rem;
+
+        &.p1-val {
+          justify-content: flex-start;
+        }
+
+        &.p2-val {
+          justify-content: flex-end;
+        }
+
+        &.is-winner {
+          color: var(--ion-color-success);
+
+          .stat-num {
+            background: rgba(var(--ion-color-success-rgb), 0.15);
+            padding: 2px 6px;
+            border-radius: 6px;
+          }
+        }
+
+        .crown {
+          font-size: 0.85rem;
+        }
+      }
+
+      .stat-center {
+        flex: 1;
+        text-align: center;
+        padding: 0 10px;
+
+        .stat-label {
+          font-size: 0.78rem;
+          font-weight: 600;
+          color: var(--ion-color-medium);
+          display: block;
+          margin-bottom: 4px;
+        }
+
+        .balance-bar-container {
+          height: 8px;
+          display: flex;
+          background: rgba(var(--ion-color-medium-rgb), 0.15);
+          border-radius: 4px;
+          overflow: hidden;
+
+          .balance-bar {
+            height: 100%;
+            transition: width 0.3s ease;
+
+            &.p1 {
+              background: var(--ion-color-primary);
+            }
+
+            &.p2 {
+              background: var(--ion-color-tertiary);
+            }
+          }
+        }
+      }
+    }
+  }
+}
